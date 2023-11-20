@@ -2,18 +2,17 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
-using WebDriverManager;
-using WebDriverManager.DriverConfigs.Impl;
-using WebDriverManager.Helpers;
 
-public class Program {
-    public static void Main(string[] args) {
-        new DriverManager().SetUpDriver(new ChromeConfig());
+public class Program
+{
+    public static void Main(string[] args)
+    {
 
         var options = new ChromeOptions();
         //options.AddArgument("headless");
 
-        var ticketInfo = new IntercityTicketPage.TicketInfo() {
+        var ticketInfo = new IntercityTicketPage.TicketInfo()
+        {
             DiscountCnt = 1,
             NormalCnt = 0,
             DiscountType = "Studenci do 26 lat",
@@ -25,26 +24,30 @@ public class Program {
             Environment.GetEnvironmentVariable("PASS")
             );
         ChromeDriver driver = null;
-        while (true) {
-            try {
+        while(true)
+        {
+            try
+            {
                 driver = new ChromeDriver(options);
                 IntercitySearchPage searchPage = new IntercitySearchPage(driver);
                 var page = searchPage.NavigateToSearching()
-                    .SearchConnections("Bielsko-Biała Główna", "Wrocław Główny",
-                        new DateTime(2023, 5, 3, 16, 0, 0))
+                    .SearchConnections("Wrocław Główny", "Bielsko-Biała Główna",
+                    // .SearchConnections("Katowice", "Wrocław Główny",
+                        new DateTime(2023, 10, 31, 8, 0, 0))
                     .SearchTicket(ticketInfo);
 
-                while (page.IsAnnouncement() || !page.CanSit()) {
+                while(page.IsAnnouncement() || !page.CanSit())
+                {
                     driver.Navigate().Back();
                     page = new IntercityTicketPage(driver).SearchTicket(ticketInfo);
                 }
-      
+
                 page.OrderTicket("Mateusz Kisiel")
                     .Login(loginData)
                     .PayLater()
                     .GoOn();
 
-                
+
                 while(true)
                 {
                     Console.Beep(760, 1000);
@@ -55,7 +58,8 @@ public class Program {
                 break;
 
             }
-            catch(Exception e)  {
+            catch(Exception e)
+            {
                 Console.WriteLine(e.Message);
                 driver?.Close();
                 // driver.Manage().Cookies.DeleteAllCookies();
@@ -67,6 +71,6 @@ public class Program {
 
 
         Console.ReadLine();
-        
+
     }
 }

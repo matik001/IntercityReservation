@@ -88,10 +88,10 @@ namespace IntercityReservation {
             Thread.Sleep(500);
             discountTypeSelect.SelectByText(ticket.DiscountType, true);
             Thread.Sleep(500);
-            sitTypeSelect.SelectByText(ticket.PreferredSitType.GetEnumDescription());
-            Thread.Sleep(500);
-            carriageTypeSelect.SelectByText(ticket.PreferredCarriageType.GetEnumDescription());
-            Thread.Sleep(500);
+            // sitTypeSelect.SelectByText(ticket.PreferredSitType.GetEnumDescription());
+            // Thread.Sleep(500);
+            // carriageTypeSelect.SelectByText(ticket.PreferredCarriageType.GetEnumDescription());
+            // Thread.Sleep(500);
 
             submitBtn.Submit();
 
